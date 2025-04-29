@@ -27,9 +27,9 @@ body {
     filter:invert(100%);
 }
 #bird {
-    filter: invert(100%);
+    filter: invert(90%);
     position: relative;
-    margin: auto;
+    left: 15%;
     top: 30%
 }
 #score{
@@ -43,4 +43,12 @@ body {
     position: absolute;
     top: 10px;
     color: red;
+}
+
+.jump {
+transform: rotate(-20deg)
+}
+.fall {
+    transform: rotate(45deg)
+
 }
