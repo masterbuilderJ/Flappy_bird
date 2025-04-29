@@ -30,7 +30,7 @@ body {
     filter: invert(90%);
     position: relative;
     left: 15%;
-    top: 30%
+    top: 30%;
 }
 #score{
     position: relative;
@@ -46,9 +46,9 @@ body {
 }
 
 .jump {
-transform: rotate(-20deg)
+transform: rotate(-20deg);
 }
 .fall {
-    transform: rotate(45deg)
+    transform: rotate(45deg);
 
 }
