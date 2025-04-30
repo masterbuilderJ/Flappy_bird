@@ -8,6 +8,9 @@ let pipe_gap = 250;
 
 let gameInterval = null;
 
+let frame = 0; 
+const frame_time = 200;
+
 // sesion 2
 let bird = document.getElementById("bird");
 let score_display = document.getElementById("score");
@@ -36,6 +39,11 @@ function startGame() {
 
   gameInterval = setInterval(() => {
     applyGravity();
+    movePipes();
+    frame++;
+    if (frame % frame_time === 0)  {
+      createpipe();
+    }
   }, 10);
 }
 
@@ -61,7 +69,7 @@ function onStartButtonClick() {
 // greate pipe
 function createpipe() {
   let pipe_position =
-  math.floor(math.rabdom() * (game_container.offsetHeight - pipe_gap - 100)) + 
+  Math.floor(Math.random() * (game_container.offsetHeight - pipe_gap - 100)) + 
   50;
 
   // top pipe
@@ -81,20 +89,20 @@ bottom_pipe.style.bottom = "0px";
 bottom_pipe.style.left = "100%";
 game_container.appendChild(bottom_pipe);
 
-pipe_position.push(top_pipe, bottom_pipe);
+pipes.push(top_pipe, bottom_pipe);
 }
 
-// move pipes
-function movePipes() {
-  for (let pipe of pipe) {
-    pipe.style.left = pipe.offsetleft - 3 + "px";
 
-    //remove pipe off screan
-    if (pipe.offsetleft < -pipe.offsetWidth) {
+function movePipes() {
+  for (let pipe of pipes) {
+    pipe.style.left = pipe.offsetLeft - 3 + "px";
+
+    // Remove pipes off screen
+    if (pipe.offsetLeft < -pipe.offsetWidth) {
       pipe.remove();
     }
   }
 
-  //remove old pipes from the array
-  pipes = pipes.filter((pipe) => pipe.offsetleft + pipe.offsetWidth > 0);
+  // Remove old pipes from the array
+  pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0);
 }

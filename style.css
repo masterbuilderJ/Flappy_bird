@@ -52,3 +52,17 @@ transform: rotate(-20deg);
     transform: rotate(45deg);
 
 }
+
+.pipe {
+    position: absolute;
+    width: 60px;
+    background-color: green;
+}
+
+.top-pipe {
+    top: 0;
+    border-bottom: 5px soild darkgreen;
+}
+.bottom-pipe {
+    border-top: 5px soild darkgreen;
+}
