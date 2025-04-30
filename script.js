@@ -40,6 +40,7 @@ function startGame() {
   gameInterval = setInterval(() => {
     applyGravity();
     movePipes();
+    ckeckCollision();
     frame++;
     if (frame % frame_time === 0)  {
       createpipe();
@@ -105,4 +106,71 @@ function movePipes() {
 
   // Remove old pipes from the array
   pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0);
+}
+
+
+function ckeckCollision() {
+  let birdRect = bird.getBoundingClientRect();
+  for (let pipe of pipes){
+    let pipeRect = pipe.getBoundingClientRect();
+    
+    if (
+      birdRect.left < pipeRect.left + pipeRect.width &&
+      birdRect.left + pipeRect.width > pipeRect.left &&
+      birdRect.top < pipeRect.top + pipeRect.hieght &&
+      birdRect.top + pipeRect.height > pipeRect.top 
+    ) {
+      endGame();
+      return;
+    }
+  }
+
+  if(
+    bird.offsetTop <= 0 ||
+    bird.offsetTop >= game_container.offsetHeight - bird.offsetHeight
+  ) {
+  endGame();
+  }
+
+  pipes.forEach((pipe, index) => {
+    if(index % 2 === 0) {
+
+      if (
+        pipe.offsetLeft + pipe.offsetWidth < bird.offsetLeft &&
+        !pipe.passed
+      ) {
+        pipe.passed = true;
+        setscore(score + 1);
+      }
+    }
+  });
+}
+
+
+
+function setscore(newScore) {
+  score = newScore
+  score_display.textContent = "Score: " + score;
+}
+
+
+function endGame() {
+  clearInterval(gameInterval);
+  gameInterval = null;
+
+  alert("GAME OVER! Your score: " + score);
+  resetGame();
+}
+
+function resetGame() {
+  bird.style.TOP = "50%";
+  bird_dy = 0;
+  for ( let pipe of pipe) {
+    pipe.remove();
+  }
+  pipes = [];
+  setscore(0);
+  frame = 0;
+  game_state = "start";
+  score_display.textContent = "";
 }
