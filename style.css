@@ -27,7 +27,7 @@ body {
     filter:invert(100%);
 }
 #bird {
-    filter: invert(90%);
+    filter: invert(85%);
     position: relative;
     left: 15%;
     top: 30%;
