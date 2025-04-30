@@ -48,10 +48,10 @@ body {
 }
 
 .jump {
-transform: rotate(-20deg);
+transform: rotate(-10deg);
 }
 .fall {
-    transform: rotate(45deg);
+    transform: rotate(15deg);
 
 }
 

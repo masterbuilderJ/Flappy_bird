@@ -4,7 +4,7 @@ let bird_dy = 0;
 let score = 0;
 let game_state = "start";
 let pipes = [];
-let pipe_gap = 250;
+let pipe_gap = 275;
 
 let gameInterval = null;
 
@@ -40,10 +40,10 @@ function startGame() {
   gameInterval = setInterval(() => {
     applyGravity();
     movePipes();
-    ckeckCollision();
+    checkCollision();
     frame++;
     if (frame % frame_time === 0)  {
-      createpipe();
+      createPipe();
     }
   }, 10);
 }
@@ -68,12 +68,12 @@ function onStartButtonClick() {
 
 
 // greate pipe
-function createpipe() {
+function createPipe() {
   let pipe_position =
-  Math.floor(Math.random() * (game_container.offsetHeight - pipe_gap - 100)) + 
-  50;
+    Math.floor(Math.random() * (game_container.offsetHeight - pipe_gap - 100)) +
+    50;
 
-  // top pipe
+  // Top pipe
   let top_pipe = document.createElement("div");
   top_pipe.className = "pipe";
   top_pipe.style.height = pipe_position + "px";
@@ -81,17 +81,18 @@ function createpipe() {
   top_pipe.style.left = "100%";
   game_container.appendChild(top_pipe);
 
-// bottom pipe
-let bottom_pipe = document.createElement("div");
-bottom_pipe.className = "pipe";
-bottom_pipe.style.height = 
-game_container.offsetHeight - pipe_gap - pipe_position + "px";
-bottom_pipe.style.bottom = "0px";
-bottom_pipe.style.left = "100%";
-game_container.appendChild(bottom_pipe);
+  // Bottom pipe
+  let bottom_pipe = document.createElement("div");
+  bottom_pipe.className = "pipe";
+  bottom_pipe.style.height =
+    game_container.offsetHeight - pipe_gap - pipe_position + "px";
+  bottom_pipe.style.bottom = "0px";
+  bottom_pipe.style.left = "100%";
+  game_container.appendChild(bottom_pipe);
 
-pipes.push(top_pipe, bottom_pipe);
+  pipes.push(top_pipe, bottom_pipe);
 }
+
 
 
 function movePipes() {
@@ -109,40 +110,38 @@ function movePipes() {
 }
 
 
-function ckeckCollision() {
+function checkCollision() {
   let birdRect = bird.getBoundingClientRect();
-  for (let pipe of pipes){
+  for (let pipe of pipes) {
     let pipeRect = pipe.getBoundingClientRect();
-    
+
     if (
       birdRect.left < pipeRect.left + pipeRect.width &&
-      birdRect.left + pipeRect.width > pipeRect.left &&
+      birdRect.left + birdRect.width > pipeRect.left &&
       birdRect.top < pipeRect.top + pipeRect.height &&
-      birdRect.top + pipeRect.height > pipeRect.top 
-
-      
+      birdRect.top + birdRect.height > pipeRect.top
     ) {
       endGame();
       return;
     }
   }
-
-  if(
+  // Collision with top and bottom
+  if (
     bird.offsetTop <= 0 ||
     bird.offsetTop >= game_container.offsetHeight - bird.offsetHeight
   ) {
-  endGame();
+    endGame();
   }
-
+  // Increase score when bird passes pipes (pipes are paired)
   pipes.forEach((pipe, index) => {
-    if(index % 2 === 0) {
-
+    if (index % 2 === 0) {
+      // Only check once for each top-bottom pair
       if (
         pipe.offsetLeft + pipe.offsetWidth < bird.offsetLeft &&
         !pipe.passed
       ) {
         pipe.passed = true;
-        setscore(score + 1);
+        setScore(score + 1);
       }
     }
   });
@@ -150,7 +149,8 @@ function ckeckCollision() {
 
 
 
-function setscore(newScore) {
+
+function setScore(newScore) {
   score = newScore
   score_display.textContent = "Score: " + score;
 }
@@ -160,19 +160,20 @@ function endGame() {
   clearInterval(gameInterval);
   gameInterval = null;
 
-  alert("GAME OVER! Your score: " + score);
+  alert("Game Over! Your Score: " + score);
   resetGame();
 }
 
+
 function resetGame() {
-  bird.style.TOP = "50%";
+  bird.style.top = "50%";
   bird_dy = 0;
-  for ( let pipe of pipe) {
+  for (let pipe of pipes) {
     pipe.remove();
   }
   pipes = [];
-  setscore(0);
+  setScore(0);
   frame = 0;
-  game_state = "start";
+  game_state = "Start";
   score_display.textContent = "";
 }
