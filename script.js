@@ -117,8 +117,10 @@ function ckeckCollision() {
     if (
       birdRect.left < pipeRect.left + pipeRect.width &&
       birdRect.left + pipeRect.width > pipeRect.left &&
-      birdRect.top < pipeRect.top + pipeRect.hieght &&
+      birdRect.top < pipeRect.top + pipeRect.height &&
       birdRect.top + pipeRect.height > pipeRect.top 
+
+      
     ) {
       endGame();
       return;
