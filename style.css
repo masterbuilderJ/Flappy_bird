@@ -6,7 +6,7 @@ body {
 #button {
     background-color: rgb(137, 204, 243);
     color: rgb(0, 47, 255);
-    filter: invert(100%);
+    filter: invert(0%);
     position: absolute;
     top: 150px;
     width: 50px;
@@ -24,10 +24,10 @@ body {
     height: 100vh;
     background-repeat: repeat-x;
     background-size: cover;
-    filter:invert(100%);
+    filter:invert(0%);
 }
 #bird {
-    filter: invert(85%);
+    filter: invert(0%);
     position: relative;
     left: 15%;
     top: 30%;
@@ -37,7 +37,7 @@ body {
     top: -70px;
     /* left: 1000px; */
     text-align: center;
-    filter: invert(100%);
+    filter: invert(0%);
     font-size:50px;
 }
 
@@ -58,7 +58,7 @@ transform: rotate(-10deg);
 .pipe {
     position: absolute;
     width: 60px;
-    background-color: green;
+    background-color: lch(33.17% 68.08 37.19);
     /* background-image: url("assests/pipe.png"); */
     /* background-repeat: no-repeat; */
     /* background-size: cover; */
@@ -68,13 +68,13 @@ transform: rotate(-10deg);
 
 .top-pipe {
     top: 0;
-    border-bottom: 5px soild darkgreen;
+    border-bottom: 5px soild lch(33.17% 68.08 37.19);
     /* background-image: url("assests/pipe.png"); */
     /* background-repeat: no-repeat; */
     /* background-size: cover; */
 }
 .bottom-pipe {
-    border-top: 5px soild darkgreen;
+    border-top: 5px soild lch(33.17% 68.08 37.19);
     /* background-image: url("assests/pipe.png"); */
     /* background-repeat: no-repeat; */
     /* background-size: cover; */

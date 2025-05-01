@@ -5,10 +5,11 @@ let score = 0;
 let game_state = "start";
 let pipes = [];
 let pipe_gap = 275;
+let height_score = 0;
 
 let gameInterval = null;
 
-let frame = 0; 
+let frame = 0;
 const frame_time = 200;
 
 // sesion 2
@@ -37,12 +38,14 @@ function applyGravity() {
 function startGame() {
   if (gameInterval !== null) return;
 
+  backgroundMusic.play();
   gameInterval = setInterval(() => {
     applyGravity();
     movePipes();
     checkCollision();
+    getDifficultySettings();
     frame++;
-    if (frame % frame_time === 0)  {
+    if (frame % frame_time === 0) {
       createPipe();
     }
   }, 10);
@@ -55,17 +58,17 @@ document.addEventListener("keydown", (e) => {
       startGame();
     }
 
+    flapSound.play();
     bird_dy = -7;
   }
 });
 
 function onStartButtonClick() {
   if (game_state !== "Play") {
-    game_syate = "Play";
+    game_state = "Play";
     startGame();
   }
 }
-
 
 // greate pipe
 function createPipe() {
@@ -93,11 +96,9 @@ function createPipe() {
   pipes.push(top_pipe, bottom_pipe);
 }
 
-
-
 function movePipes() {
   for (let pipe of pipes) {
-    pipe.style.left = pipe.offsetLeft - 3 + "px";
+    pipe.style.left = pipe.offsetLeft - pipeSpeed + "px";
 
     // Remove pipes off screen
     if (pipe.offsetLeft < -pipe.offsetWidth) {
@@ -108,7 +109,6 @@ function movePipes() {
   // Remove old pipes from the array
   pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0);
 }
-
 
 function checkCollision() {
   let birdRect = bird.getBoundingClientRect();
@@ -147,23 +147,28 @@ function checkCollision() {
   });
 }
 
-
-
-
 function setScore(newScore) {
-  score = newScore
+  if (newScore > score) {
+    scoreSound.play();
+  }
+  score = newScore;
   score_display.textContent = "Score: " + score;
 }
 
-
 function endGame() {
+  hitSound.play();
   clearInterval(gameInterval);
   gameInterval = null;
-
-  alert("Game Over! Your Score: " + score);
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+  if (height_score < score) {
+    alert("new height score " + score);
+    height_score = score;
+  } else {
+    alert("Game Over! Your Score: " + score);
+  }
   resetGame();
 }
-
 
 function resetGame() {
   bird.style.top = "50%";
@@ -177,3 +182,27 @@ function resetGame() {
   game_state = "Start";
   score_display.textContent = "";
 }
+
+let pipeSpeed = 3; // Default speed
+
+function getDifficultySettings() {
+  const selected = document.getElementById("difficulty-select").value;
+
+  if (selected === "easy") {
+    pipeSpeed = 2;
+  } else if (selected === "medium") {
+    pipeSpeed = 3;
+  } else if (selected === "hard") {
+    pipeSpeed = 5;
+  }
+}
+
+const flapSound = new Audio("sounds/flap.mp3");
+const scoreSound = new Audio("sounds/score.mp3");
+const hitSound = new Audio("sounds/hit.mp3");
+
+// Load background music
+const backgroundMusic = new Audio("sounds/background.mp3");
+backgroundMusic.loop = true; // music should keep playing
+backgroundMusic.volume = 0.5; // adjust volume
+backgroundMusic.play();
