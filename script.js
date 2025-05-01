@@ -3,9 +3,21 @@ let gravity = 0.25;
 let bird_dy = 0;
 let score = 0;
 let game_state = "start";
+let difficulty = "easy";
 let pipes = [];
 let pipe_gap = 275;
-let height_score = 0;
+
+const defaultScore = {
+  baby: 0,
+  meduim: 0,
+  hard: 0,
+  imposeible: 0,
+  easy: 0,
+};
+let height_score = JSON.parse(localStorage.getItem("height_score")) || {
+  ...defaultScore,
+};
+
 
 let gameInterval = null;
 
@@ -44,6 +56,10 @@ function startGame() {
     movePipes();
     checkCollision();
     getDifficultySettings();
+    height_score = JSON.parse(localStorage.getItem("height_score")) || {
+      ...defaultScore,
+    };
+    score_display.textContent = "score: " + score + " | best: " + height_score[difficulty];
     frame++;
     if (frame % frame_time === 0) {
       createPipe();
@@ -152,10 +168,15 @@ function setScore(newScore) {
     scoreSound.play();
   }
   score = newScore;
-  score_display.textContent = "Score: " + score;
 }
 
 function endGame() {
+  if (Number(score) > Number(height_score[difficulty])) {
+    localStorage.setItem(
+      "height_score",
+      JSON.stringify({ ...height_score, [difficulty]: score })
+    );
+  }
   hitSound.play();
   clearInterval(gameInterval);
   gameInterval = null;
@@ -163,7 +184,6 @@ function endGame() {
   backgroundMusic.currentTime = 0;
   if (height_score < score) {
     alert("new height score " + score);
-    height_score = score;
   } else {
     alert("Game Over! Your Score: " + score);
   }
@@ -186,23 +206,38 @@ function resetGame() {
 let pipeSpeed = 3; // Default speed
 
 function getDifficultySettings() {
-  const selected = document.getElementById("difficulty-select").value;
-
-  if (selected === "easy") {
+  difficulty = document.getElementById("difficulty-select").value;
+console.log(difficulty)
+debugger;
+  if (difficulty === "easy") {
+    pipeSpeed = 4;
+    bird.style.height = "100px";
+    bird.style.width = "120px";
+  } else if (difficulty === "medium") {
+    pipeSpeed = 7;
+    bird.style.height = "100px";
+    bird.style.width = "120px";
+  } else if (difficulty === "hard") {
+    pipeSpeed = 12;
+    bird.style.height = "100px";
+    bird.style.width = "120px";
+  } else if (difficulty === "imposeible") {
+    pipeSpeed = 100;
+    bird.style.height = "100px";
+    bird.style.width = "120px";
+  } else if (difficulty === "Baby") {
     pipeSpeed = 2;
-  } else if (selected === "medium") {
-    pipeSpeed = 3;
-  } else if (selected === "hard") {
-    pipeSpeed = 5;
+    bird.style.width = "20px";
+    bird.style.height = "20px";
   }
 }
 
-const flapSound = new Audio("sounds/flap.mp3");
-const scoreSound = new Audio("sounds/score.mp3");
-const hitSound = new Audio("sounds/hit.mp3");
+const flapSound = new Audio("assests/sound.mp3"); // temp
+const scoreSound = new Audio("assests/sound.mp3"); // temp
+const hitSound = new Audio("assests/sound.mp3"); // temp
 
 // Load background music
-const backgroundMusic = new Audio("sounds/background.mp3");
+const backgroundMusic = new Audio("assests/sound.mp3"); // temp
 backgroundMusic.loop = true; // music should keep playing
 backgroundMusic.volume = 0.5; // adjust volume
 backgroundMusic.play();

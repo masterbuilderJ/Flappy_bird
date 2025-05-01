@@ -1,0 +1,1 @@
+https://www.freecodecamp.org/news/how-to-store-objects-or-arrays-in-browser-local-storage/

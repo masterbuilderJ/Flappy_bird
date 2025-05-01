@@ -31,6 +31,7 @@ body {
     position: relative;
     left: 15%;
     top: 30%;
+    transform: scaleX(-1);
 }
 #score{
     position: relative;
@@ -48,10 +49,10 @@ body {
 }
 
 .jump {
-transform: rotate(-10deg);
+/* transform: rotate(20deg); */
 }
 .fall {
-    transform: rotate(15deg);
+    /* transform: rotate(90deg); */
 
 }
 
