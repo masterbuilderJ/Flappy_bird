@@ -6,18 +6,18 @@ let game_state = "start";
 let difficulty = "easy";
 let pipes = [];
 let pipe_gap = 275;
-
+let flickerInterval = null;
 const defaultScore = {
-  baby: 0,
-  meduim: 0,
+  Baby: 0,
+  medium: 0,
   hard: 0,
   imposeible: 0,
   easy: 0,
+  flicker: 0,
 };
 let height_score = JSON.parse(localStorage.getItem("height_score")) || {
   ...defaultScore,
 };
-
 
 let gameInterval = null;
 
@@ -59,12 +59,38 @@ function startGame() {
     height_score = JSON.parse(localStorage.getItem("height_score")) || {
       ...defaultScore,
     };
-    score_display.textContent = "score: " + score + " | best: " + height_score[difficulty];
+
+    if (difficulty === "flicker") {
+      triggerFlicker();
+    }
+
+    score_display.textContent =
+      "score: " + score + " | best: " + height_score[difficulty];
     frame++;
     if (frame % frame_time === 0) {
       createPipe();
     }
   }, 10);
+}
+
+let calledTrigger = false;
+
+function triggerFlicker() {
+  if(calledTrigger) return;
+  pipes.forEach((pipe, index) => {
+    pipe.style.visibility = "hidden";
+
+    let timeout = setTimeout(() => {
+      pipe.style.visibility = "visible";
+      clearTimeout(timeout);
+    }, 500);
+  });
+
+  let resettimeout  = setTimeout(() => {
+    calledTrigger = false;
+    clearTimeout(resettimeout);
+  }, 8000);
+
 }
 
 document.addEventListener("keydown", (e) => {
@@ -200,6 +226,7 @@ function resetGame() {
   setScore(0);
   frame = 0;
   game_state = "Start";
+  clearInterval(flickerInterval);
   score_display.textContent = "";
 }
 
@@ -207,8 +234,8 @@ let pipeSpeed = 3; // Default speed
 
 function getDifficultySettings() {
   difficulty = document.getElementById("difficulty-select").value;
-console.log(difficulty)
-debugger;
+  console.log(difficulty);
+  // debugger;
   if (difficulty === "easy") {
     pipeSpeed = 4;
     bird.style.height = "80px";
@@ -229,28 +256,31 @@ debugger;
     pipeSpeed = 2;
     bird.style.width = "20px";
     bird.style.height = "20px";
+  } else if (difficulty === "flicker") {
+    pipeSpeed = 5;
+    bird.style.width = "90px";
+    bird.style.height = "110px";
   }
 }
 
-const flapSound = new Audio("assests/sound.mp3"); // temp
-const scoreSound = new Audio("assests/sound.mp3"); // temp
-const hitSound = new Audio("assests/sound.mp3"); // temp
+const flapSound = new Audio("/assests/sound.mp3"); // temp
+const scoreSound = new Audio("/assests/sound.mp3"); // temp
+const hitSound = new Audio("/assests/sound.mp3"); // temp
 
 // Load background music
-const backgroundMusic = new Audio("assests/sound.mp3"); // temp
+const backgroundMusic = new Audio("/assests/sound.mp3"); // temp
 backgroundMusic.loop = true; // music should keep playing
 backgroundMusic.volume = 0.5; // adjust volume
 backgroundMusic.play();
 
-
-function updateBackgroungAvatar(score){
- if (score>= 6 &&score< 12) {
-bird.style.background = "url(/assests/bird_level2png) center center";
- } else if (score = 12 &&score< 18){
-  bird.style.background = "url(/assests/bird_level3png) center center";
-} else if (score >= 18){
-  bird.style.background = "url(/assests/bird_level3png) center center";
-} else {
-  bird.style.background = "url(/assests/bird.png) center center";
-}
+function updateBackgroungAvatar(score) {
+  if (score >= 6 && score < 12) {
+    bird.style.background = "url(/assests/bird_level2png) center center";
+  } else if ((score = 12 && score < 18)) {
+    bird.style.background = "url(/assests/bird_level3png) center center";
+  } else if (score >= 18) {
+    bird.style.background = "url(/assests/bird_level3png) center center";
+  } else {
+    bird.style.background = "url(/assests/bird.png) center center";
+  }
 }
