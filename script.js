@@ -283,7 +283,7 @@ function updateBackgroungAvatar(score) {
   } else if ((score >= 12 && score < 18)) {
     game_container.style.background = "url(/assests/background_level.3.png) center center";
   } else if (score >= 18) {
-    game_container.style.background = "url(/background_level 4.jpg) center center";
+    game_container.style.background = "url(/assests/background_level 4.jpg) center center";
   } else {
     game_container.style.background = "url(/assests/background.jpg) center center";
   }
