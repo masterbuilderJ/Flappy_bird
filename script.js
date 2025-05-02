@@ -275,9 +275,12 @@ backgroundMusic.volume = 0.5; // adjust volume
 backgroundMusic.play();
 
 function updateBackgroungAvatar(score) {
+  if (score >= 1 && score < 6) {
+    game_container.style.background = "url(/assests/background.jpg) center center";
+  }
   if (score >= 6 && score < 12) {
     game_container.style.background = "url(/assests/background_level.2.jpg) center center";
-  } else if ((score = 12 && score < 18)) {
+  } else if ((score >= 12 && score < 18)) {
     game_container.style.background = "url(/assests/background_level.3.png) center center";
   } else if (score >= 18) {
     game_container.style.background = "url(/background_level 4.jpg) center center";
