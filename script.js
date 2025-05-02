@@ -83,13 +83,13 @@ function triggerFlicker() {
     let timeout = setTimeout(() => {
       pipe.style.visibility = "visible";
       clearTimeout(timeout);
-    }, 500);
+    }, 2000);
   });
 
   let resettimeout  = setTimeout(() => {
     calledTrigger = false;
     clearTimeout(resettimeout);
-  }, 8000);
+  }, 1000);
 
 }
 
@@ -194,6 +194,7 @@ function setScore(newScore) {
     scoreSound.play();
   }
   score = newScore;
+  updateBackgroungAvatar(score)
 }
 
 function endGame() {
@@ -275,12 +276,12 @@ backgroundMusic.play();
 
 function updateBackgroungAvatar(score) {
   if (score >= 6 && score < 12) {
-    bird.style.background = "url(/assests/bird_level2png) center center";
+    game_container.style.background = "url(/assests/background_level.2.jpg) center center";
   } else if ((score = 12 && score < 18)) {
-    bird.style.background = "url(/assests/bird_level3png) center center";
+    game_container.style.background = "url(/assests/background_level.3.png) center center";
   } else if (score >= 18) {
-    bird.style.background = "url(/assests/bird_level3png) center center";
+    game_container.style.background = "url(/background_level 4.jpg) center center";
   } else {
-    bird.style.background = "url(/assests/bird.png) center center";
+    game_container.style.background = "url(/assests/background.jpg) center center";
   }
 }
