@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>flappy bird game</title> 
+<title>flappy Bat game</title> 
 <meta name="description" content="this is a fun game">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hubot+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="./script.js" defer> </script>
+<link rel="icon" type="image/png" href="./assests/icon.png"/> 
 </head>
 <body>
     <div id="game_container">
-        <img src="/assests/bird.png" id="bird" alt="bird" height="70" width="80"/>
+        <img src="./assests/bird.png" id="bird" alt="bird" height="100" width="120"/>
         <p style="color: rgb(255, 255, 255)" id="score"> score : 0</p>
         <button id="button" onclick="onStartButtonClick()">start game</button>
         <h1 id="title">
-            Flappy Bird Game
+            Flappy Bat Game
         </h1>
     </div>
     <select id="difficulty-select">
         <option value="easy"> Easy</option>
         <option value="medium"> Medium</option>
         <option value="hard"> Hard</option>
+        <option value="imposeible"> imposeible</option>
+        <option value="Baby"> Baby</option>
+
     </select>
 </body>
 </html>
